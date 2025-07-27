@@ -1,0 +1,63 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build y test con cobertura
+        run: mvn clean verify
+
+      - name: Subir reporte de cobertura como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-jacoco
+          path: target/site/jacoco/
+
+      # --- JMETER ---
+      # En un escenario real, aquí necesitaríamos iniciar la API.
+      # Para la simulación, simplemente añadimos los pasos de ejecución y subida.
+
+      - name: Run JMeter test
+        run: |
+          echo "Simulando la ejecución de JMeter..."
+          # El siguiente comando es para la simulación, fallaría sin un servidor activo.
+          docker run --rm \
+            -v ${{ github.workspace }}/jmeter:/tests \
+            -w /tests \
+            justb4/jmeter \
+            -n -t TestHealthTrack.jmx \
+            -l results.jtl \
+            -e -o report
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-html-report
+          path: jmeter/report # La ruta donde JMeter genera el reporte
+          if-no-files-found: 'warn' # No fallar si el reporte no se crea
+
+      

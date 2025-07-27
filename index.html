@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthTrack - Perfil</title>
+</head>
+<body>
+    <h1>Perfil de Usuario</h1>
+    <p>Peso Actual: <span id="display-peso">75.0 kg</span></p>
+
+    <div>
+        <label for="peso-input">Actualizar Peso (kg):</label>
+        <input type="number" id="peso-input" placeholder="Nuevo peso">
+        <button id="guardar-peso">Guardar</button>
+    </div>
+
+    <script>
+        // Lógica simple para simular la actualización en la página
+        document.getElementById('guardar-peso').addEventListener('click', () => {
+            const nuevoPeso = document.getElementById('peso-input').value;
+            if (nuevoPeso) {
+                document.getElementById('display-peso').innerText = nuevoPeso + ' kg';
+            }
+        });
+    </script>
+</body>
+</html>

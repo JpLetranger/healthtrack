@@ -30,6 +30,24 @@
       <version>5.9.1</version>
       <scope>test</scope>
     </dependency>
+          <!-- Javalin para crear un servidor web ligero -->
+        <dependency>
+            <groupId>io.javalin</groupId>
+            <artifactId>javalin</artifactId>
+            <version>5.6.1</version>
+        </dependency>
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-simple</artifactId>
+  <version>2.0.7</version>
+</dependency>
+        <!-- Jackson para manejar JSON (necesario para Javalin) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+
   </dependencies>
 
   <build>

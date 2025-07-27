@@ -36,3 +36,28 @@ jobs:
         with:
           name: reporte-jacoco
           path: target/site/jacoco/
+
+      # --- JMETER ---
+      # En un escenario real, aquí necesitaríamos iniciar la API.
+      # Para la simulación, simplemente añadimos los pasos de ejecución y subida.
+
+      - name: Run JMeter test
+        run: |
+          echo "Simulando la ejecución de JMeter..."
+          # El siguiente comando es para la simulación, fallaría sin un servidor activo.
+          docker run --rm \
+            -v ${{ github.workspace }}/jmeter:/tests \
+            -w /tests \
+            justb4/jmeter \
+            -n -t TestHealthTrack.jmx \
+            -l results.jtl \
+            -e -o report
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-html-report
+          path: jmeter/report # La ruta donde JMeter genera el reporte
+          if-no-files-found: 'warn' # No fallar si el reporte no se crea
+
+      

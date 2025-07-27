@@ -36,7 +36,12 @@ public class ApiServer {
             }));
             
             // Mantener el hilo principal vivo
-            Thread.currentThread().join();
+            try {
+                Thread.currentThread().join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Re-interrumpir el hilo
+                System.err.println("Servidor interrumpido: " + e.getMessage());
+            }
             
         } catch (Exception e) {
             System.err.println("Error al iniciar el servidor: " + e.getMessage());

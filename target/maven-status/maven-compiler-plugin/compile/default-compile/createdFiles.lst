@@ -1,2 +1,3 @@
-com\healthtrack\Usuario.class
-com\healthtrack\App.class
+com/healthtrack/Usuario.class
+com/healthtrack/ApiServer.class
+com/healthtrack/App.class
